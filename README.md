@@ -11,8 +11,7 @@ Well, this CMS is quite different. It allows you to edit your website locally, o
 
 Here is a step by step guide on how to use this really simple CMS.
 
-#### 1. Clone Simple BASH CMS
-
+**1. Clone Simple BASH CMS**  
 Every new website starts by cloning this project in your website's directory on your local computer. So create a directory where your website will reside, say `my-website`, `cd` into it and clone this repository there using:
 
 ```
