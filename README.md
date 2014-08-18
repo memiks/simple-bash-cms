@@ -5,7 +5,7 @@ A really simple command-line content management (CMS) system written in BASH for
 
 #### Why the hell I've created yet another CMS ... in BASH?
 
-Well, this CMS is quite different. It allows you to edit your website locally, on your computer, without the need of internet connection and using your favorite editor (Vim, Emacs, ...) to edit the content. Then, some sort of magic is used to generate your entire website which consists of static HTML pages only, which are ready to be deployed to webserver.
+Well, this CMS is quite different. It allows you to edit your website locally, on your computer, without the need of internet connection and using your favorite editor (Vim, Emacs, ...) to edit the content. Then, some sort of magic is used to generate your entire website which consists of static HTML pages only, which are ready to be deployed to webserver. Without the need to manually connect to FTP and copy files by hand.
 
 ## How to use it
 
@@ -28,14 +28,16 @@ my-website/
     └── ...
 ```
 
+From now on, all paths I will mention will be relative to `my-website` directory.
+
 #### 2. Edit your config.sh
-Edit config options located in `config.sh` to fit your needs. Every option is commented so you get an idea what it does.
+Edit config options located in `simple-bash-cms/config.sh` to fit your needs. Every option is commented so you get an idea what it does.
 
 #### 3. Create basic directory structure
 
-We will now create basic directory structure. Altough it's not mandatory and you can create your own I reccomend you to follow this one, at least for the first time. If you decide to use your own directory layout, be sure to edit paths in `config.sh`.
+We will now create basic directory structure. Altough it's not mandatory and you can create your own, I reccomend you to follow this one, at least for the first time. If you decide to use your own directory layout, be sure to edit paths in `simple-bash-cms/config.sh`.
 
-So create a directory called `input` in your website root, which will contain all information needed as input to generate your website. Inside this directory, create another ones called `layout` (chunks of HTML - header and footer of your website), `static` (static files like images, CSS style, javascript files, etc.) and `content` (files with content, every file represents single page of your website)
+So create a directory `input`, which will contain all information needed as input to generate your website. Inside this directory, create another ones called `layout` (chunks of HTML - header and footer of your website), `static` (static files like images, CSS style, javascript files, etc.) and `content` (files with content, every file represents single page of your website)
 
 The directory `my-website` should now look something like this:
 
@@ -51,8 +53,6 @@ my-website/
     └── static
 
 ```
-
-Automated script?
 
 #### 3. Create HTML layout of your website
 
@@ -76,9 +76,9 @@ Now you need to have layout of your website in single HTML file. Just some page 
 <!-- FOOTER END --->
 ```
 
-We need only HEADER and FOOTER sections so split your layout into two halfs: `header.html` and `footer.html` and place the into `input/layout/`. Any static files like images, CSS styles, JS files etc. place in `input/static/`. From here, they will be simply copied to final website and will reside in `static/` directory in your website root, so adjust your paths in HTML accordingly.
+We need only HEADER and FOOTER sections so split your layout into two halfs: `header.html` and `footer.html` and place them into `input/layout/`. Any static files like images, CSS styles, JS files etc. place in `input/static/`. From here, they will be simply copied to final website and will reside in `static/` directory in your website root, so adjust your paths in HTML accordingly.
 
-The, the directory `my-website` should now look something like this:
+The directory `my-website` should now look something like this:
 
 ```
 my-website/
@@ -99,13 +99,13 @@ my-website/
 
 #### 4. Add some content
 
-We're ready to add some content! As you might have guessed, it will reside in `content` directory. Every file you create there represents single web page of your website. You are allowed to create three things in this directory:
+We're ready to add some content! As you might have guessed, it will reside in `input/content` directory. Every file you create there represents single web page of your website. You are allowed to create three things in this directory:
 
 1. `*.html` files with content in HTML.
 2. `*.md` files with content in Markdown.
 3. Directories. You can even nest them to better organize your files.
  
-For example, create file `index.html` with following content:
+For example, create file `index.html` in `input/content` directory with following content:
 
 ```
 <p>Hello world!</p>
