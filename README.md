@@ -9,16 +9,16 @@ Well, this CMS is quite different. It allows you to edit your website locally, o
 
 ## How to use it
 
-Here is a step by step guide on how to use this really simple CMS.
+Here is a step by step guide on how to use this CMS.
 
 #### 1. Clone Simple BASH CMS
-Every new website starts by cloning this project in your website's directory on your local computer. So create a directory where your website will reside, say `my-website`, `cd` into it and clone this repository there using:
+Every new website starts by cloning this project in your website's directory on your local computer. So create a directory where your website will reside, say `my-website/`, `cd` into it and clone this repository there using:
 
 ```
 git clone https://github.com/rubickcz/simple-bash-cms.git
 ```
 
-The directory `my-website` should now look something like this:
+The directory `my-website/` should now look something like this:
 
 ```
 my-website/
@@ -28,16 +28,16 @@ my-website/
     └── ...
 ```
 
-From now on, all paths I will mention will be relative to `my-website` directory.
+From now on, all paths I will mention will be relative to `my-website/` directory.
 
 #### 2. Edit your config.sh
 Edit config options located in `simple-bash-cms/config.sh` to fit your needs. Every option is commented so you get an idea what it does.
 
 #### 3. Create basic directory structure
 
-We will now create basic directory structure. Altough it's not mandatory and you can create your own, I reccomend you to follow this one, at least for the first time. If you decide to use your own directory layout, be sure to edit paths in `simple-bash-cms/config.sh`.
+We will now create basic directory structure. Altough it's not mandatory and you can create your own, I recommend you to follow this one, at least for the first time. If you decide to use your own directory layout, be sure to edit paths in `simple-bash-cms/config.sh`.
 
-So create a directory `input`, which will contain all information needed as input to generate your website. Inside this directory, create another ones called `layout` (chunks of HTML - header and footer of your website), `static` (static files like images, CSS style, javascript files, etc.) and `content` (files with content, every file represents single page of your website)
+So create a directory `input/`, which will contain all information needed as input to generate your website. Inside this directory, create another ones called `layout/` (chunks of HTML - header and footer of your website), `static/` (static files like images, CSS style, javascript files, etc.) and `content/` (files with content, every file represents single page of your website)
 
 The directory `my-website` should now look something like this:
 
@@ -62,23 +62,29 @@ Now you need to have layout of your website in single HTML file. Just some page 
 <!-- HEADER START --->
 <html>
   <head>
-    <title>My website</title>
+    <title>#title# - My website</title>
+    <base href="#basehref#" />
     <link rel="stylesheet" href="static/screen.css" type="text/css" />
   </head>
   <body>
+  
 <!-- HEADER END --->
 
     <p>Some sample content...</p>
 
 <!-- FOOTER START --->
+
+    <p>Last change of this page: #lastchanged#</p>
   </body>
 <html>
 <!-- FOOTER END --->
 ```
 
+Notice that I have used three special tags between `#` signs. These tags will be substituted by actual values during generation. For more information on these tags, see section in the bottom.
+
 We need only HEADER and FOOTER sections so split your layout into two halfs: `header.html` and `footer.html` and place them into `input/layout/`. Any static files like images, CSS styles, JS files etc. place in `input/static/`. From here, they will be simply copied to final website and will reside in `static/` directory in your website root, so adjust your paths in HTML accordingly.
 
-The directory `my-website` should now look something like this:
+The directory `my-website/` should now look something like this:
 
 ```
 my-website/
@@ -99,28 +105,29 @@ my-website/
 
 #### 4. Add some content
 
-We're ready to add some content! As you might have guessed, it will reside in `input/content` directory. Every file you create there represents single web page of your website. You are allowed to create three things in this directory:
+We're ready to add some content! As you might have guessed, it will reside in `input/content/` directory. Every file you create there represents single web page of your website. You are allowed to create three things in this directory:
 
 1. `*.html` files with content in HTML.
 2. `*.md` files with content in Markdown.
 3. Directories. You can even nest them to better organize your files.
  
-For example, create file `index.html` in `input/content` directory with following content:
+For example, create file `index.html` in `input/content/` directory with following content:
 
 ```
+<h1>My first page</h1>
 <p>Hello world!</p>
 ```
 #### 5. Generate your website
 
-`cd` into `simple-bash-cms` and invoke generate.sh without any parameters:
+We will now use first tool of this CMS, the `generate.sh` script. So `cd` into `simple-bash-cms` and invoke generate.sh without any parameters:
 
 ```
 ./generate.sh
 ```
 
-After a while, first page of your website should emerge in newly created `output` directory. Now I am going to tell you what happens with those content files during website generation so you will better understand what to put inside them. The script `generate.sh` simply takes every file and glues the header file on top and footer on bottom. 
+After a while, first page of your website should emerge in newly created `output/` directory. Now I am going to tell you what happens with those content files during website generation so you will better understand what to put inside them. The script `generate.sh` simply takes every file and glues the header file on top and footer on bottom. 
 
-This what happens to it during generation:
+This is what happens to our `input/content/index.html` file during generation:
 
 ```
 --------------------------------------------
@@ -151,20 +158,29 @@ The file `output/index.html` looks like this:
 ```
 <html>
   <head>
-    <title>My website</title>
+    <title>My first page - My website</title>
+    <base href="/" />
     <link rel="stylesheet" href="static/screen.css" type="text/css" />
   </head>
   <body>
+  
+<h1>My first page</h1>
 <p>Hello world!</p>
+
+    <p>Last change of this page: Sat 28 Dec 2013 10:52:55 PM CET</p>
   </body>
 <html>
 ```
 
+Now you can add more files and connect them together with hyperlinks. Be sure always use path realtive to your website root in your hyperlinks.
+
 #### 5. Upload your website to remote server
 
-The script 
+You don't need to open FTP client and copy all files by hand anymore. `publish.sh` will upload website files in smart way - only differences will be uploaded. This is accomplished thanks to mirror feature of lftp command line client. Make sure you have edited FTP settings in `simple-bash-cms/config.sh`, `cd` into `simple-bash-cms` and invoke command:
 
-
+```
+./publish.sh
+```
 
 ## Required command line tools
 
