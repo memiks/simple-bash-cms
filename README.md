@@ -232,29 +232,62 @@ client. Make sure you have edited FTP settings in `simple-bash-cms/config.sh`,
 As mentioned in previous section, you can use special tags which will be
 substituted with actual values. Following tags are available:
 
-### The TITLE tag
+#### #title#
 
-Every page should have unique title. Tag `#title` should be placed in your html
-header. Simple BASH CMS searches for title in this order:
+Title of the webpage. Example of use in HTML header:
 
-1. In line beginning with `title:`. You can put it on top of your content page inside HTML comment:
+```
+<title>#title# - My website</title>
+```
+Actual title of the webpage is searched in file with its content in this order:
+
+* On line beginning with `title:`
 ```
 <!--
 title: My page
 -->
 ```
-2. In h1 HTML tag:
+* In h1 HTML tag
 ```
 <h1>My page</h1>
 ```
-3. In h1 markdown tag:
+* In h1 markdown tag
 ```
 # My page
 ```
 
-### The BASEHREF tag
+#### #basehref#
 
+Base href for hyperlinks. Gets substituted with `BASE_HREF` config option or with absolute path to website root directory (for local viewing). See Tips section. Example of use in HTML header:
 
+```
+<base href="#basehref#" />
+```
+
+#### #lastchange#
+
+Gets substituted with content file's last modification date.
+
+## Tips
+
+### View your website locally
+
+Sometimes you want to review your website localy, before uploading. Since base href is set to be used while uploaded to webserver, your links, CSS styles, images etc. won't work on your local computer. There is easy solution for this. Invoke `generate.sh` with `local` option, like this:
+
+```
+./simple-bash-cms/generate.sh local
+```
+
+This will substitute `#basehref` tag with local path to your website root and you will be able to view your site locally. Before publishing, it must be regenrated with right base href. The `publish.sh` script takes care of it.
+
+### Use Makefile to quickly regenerate your website
+
+If you have `make` command mapped on some key in your editor, you can quickly regenerate your website between edits by using this simple `Makefile`:
+
+```
+all:
+    ./simple-bash-cms/generate.sh local
+```
 
 ## Required command line tools
 
