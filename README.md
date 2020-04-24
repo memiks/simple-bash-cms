@@ -25,13 +25,13 @@ Every new website starts by cloning this project in your website's directory on
 your local computer. So create a directory where your website will reside, say
 `my-website/`, `cd` into it and clone this repository there using:
 
-```
-git clone https://github.com/rubickcz/simple-bash-cms.git
+```sh
+$ git clone https://github.com/rubickcz/simple-bash-cms.git
 ```
 
 The directory `my-website/` should now look something like this:
 
-```
+```sh
 my-website/
 └── simpe-bash-cms
     ├── config.sh
@@ -42,6 +42,7 @@ my-website/
 From now on, all paths I will mention will be relative to `my-website/` directory.
 
 #### 2. Edit your config.sh
+
 Edit config options located in `simple-bash-cms/config.sh` to fit your needs.
 Every option is commented so you get an idea what it does.
 
@@ -61,7 +62,7 @@ website)
 
 The directory `my-website` should now look something like this:
 
-```
+```sh
 my-website/
 ├── simpe-bash-cms
 │   ├── config.sh
@@ -83,7 +84,7 @@ internet, it's up to you. And of course, you can use images, CSS styles etc.
 This is very simplified example of such a page (I have added HTML comments to
 clearly distuinguish header and footer sections):
 
-```
+```html
 <!-- HEADER START -->
 <html>
   <head>
@@ -117,7 +118,7 @@ directory in your website root, so adjust your paths in HTML accordingly.
 
 The directory `my-website/` should now look something like this:
 
-```
+```sh
 my-website/
 ├── simpe-bash-cms
 │   ├── config.sh
@@ -146,7 +147,7 @@ page of your website. You are allowed to create three things in this directory:
  
 For example, create file `index.html` in `input/content/` directory with following content:
 
-```
+```html
 <h1>My first page</h1>
 <p>Hello world!</p>
 ```
@@ -157,8 +158,8 @@ We will now use first tool of this CMS, the `generate.sh` script. Be sure your
 are in your website root directory an invoke generate.sh without any
 parameters:
 
-```
-./generate.sh
+```sh
+$ ./generate.sh
 ```
 
 After a while, first page of your website should emerge in newly created
@@ -195,7 +196,7 @@ This is what happens to our `input/content/index.html` file during generation:
 
 The file `output/index.html` looks like this:
 
-```
+```html
 <html>
   <head>
     <title>My first page - My website</title>
@@ -223,8 +224,8 @@ uploaded. This is accomplished thanks to mirror feature of lftp command line
 client. Make sure you have edited FTP settings in `simple-bash-cms/config.sh`,
 `cd` into website root and invoke command:
 
-```
-./simple-bash-cms/publish.sh
+```sh
+$ ./simple-bash-cms/publish.sh
 ```
 
 ## Special tags
@@ -236,23 +237,23 @@ substituted with actual values. Following tags are available:
 
 Title of the webpage. Example of use in HTML header:
 
-```
+```html
 <title>#title# - My website</title>
 ```
 Actual title of the webpage is searched in file with its content in this order:
 
 * On line beginning with `title:`
-```
+```html
 <!--
 title: My page
 -->
 ```
 * In h1 HTML tag
-```
+```html
 <h1>My page</h1>
 ```
 * In h1 markdown tag
-```
+```md
 # My page
 ```
 
@@ -260,7 +261,7 @@ title: My page
 
 Base href for hyperlinks. Gets substituted with `BASE_HREF` config option or with absolute path to website root directory (for local viewing). See Tips section. Example of use in HTML header:
 
-```
+```html
 <base href="#basehref#" />
 ```
 
@@ -274,8 +275,8 @@ Gets substituted with content file's last modification date.
 
 Sometimes you want to review your website localy, before uploading. Since base href is set to be used while uploaded to webserver, your links, CSS styles, images etc. won't work on your local computer. There is easy solution for this. Invoke `generate.sh` with `local` option, like this:
 
-```
-./simple-bash-cms/generate.sh local
+```sh
+$ ./simple-bash-cms/generate.sh local
 ```
 
 This will substitute `#basehref` tag with local path to your website root and you will be able to view your site locally. Before publishing, it must be regenrated with right base href. The `publish.sh` script takes care of it.
@@ -284,7 +285,7 @@ This will substitute `#basehref` tag with local path to your website root and yo
 
 If you have `make` command mapped on some key in your editor, you can quickly regenerate your website between edits by using this simple `Makefile`:
 
-```
+```make
 all:
     ./simple-bash-cms/generate.sh local
 ```
